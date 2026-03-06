@@ -1,0 +1,860 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jyoti Dev - Portfolio</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --neon-blue: #00d4ff;
+        --neon-glow: rgba(0, 212, 255, 0.5);
+        --dark-bg: #050505;
+        --card-glow: rgba(0, 212, 255, 0.3);
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(
+          135deg,
+          var(--dark-bg) 0%,
+          #1a1a2e 50%,
+          #16213e 100%
+        );
+        color: #e0e0e0;
+        overflow-x: hidden;
+        animation: pageEntrance 5s ease-out forwards;
+        opacity: 0;
+        position: relative;
+      }
+
+      /* Neon Particles Background */
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image:
+          radial-gradient(2px 2px at 20px 30px, var(--neon-blue), transparent),
+          radial-gradient(
+            2px 2px at 40px 70px,
+            rgba(0, 255, 255, 0.8),
+            transparent
+          ),
+          radial-gradient(1px 1px at 90px 40px, var(--neon-blue), transparent),
+          radial-gradient(
+            1px 1px at 130px 80px,
+            rgba(0, 255, 255, 0.6),
+            transparent
+          );
+        background-repeat: repeat;
+        background-size: 200px 100px;
+        animation: neonFloat 20s linear infinite;
+        z-index: -1;
+        pointer-events: none;
+      }
+
+      @keyframes neonFloat {
+        0% {
+          transform: translateY(0px) rotate(0deg);
+        }
+        100% {
+          transform: translateY(-100px) rotate(360deg);
+        }
+      }
+
+      @keyframes pageEntrance {
+        0% {
+          opacity: 0;
+          transform: scale(0.95) translateY(50px);
+          filter: blur(10px);
+        }
+        50% {
+          opacity: 0.5;
+          transform: scale(1.02);
+          filter: blur(5px);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1) translateY(0);
+          filter: blur(0);
+        }
+      }
+
+      /* Reveal Animations */
+      .reveal {
+        opacity: 0;
+        transform: translateY(60px);
+        transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+
+      .reveal.reveal-active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .reveal.from-left {
+        transform: translateX(-60px);
+      }
+
+      .reveal.from-left.reveal-active {
+        transform: translateX(0);
+      }
+
+      .reveal.from-right {
+        transform: translateX(60px);
+      }
+
+      .reveal.from-right.reveal-active {
+        transform: translateX(0);
+      }
+
+      .reveal.stagger {
+        transition-delay: calc(0.1s * var(--order));
+      }
+
+      /* 3D Tilt Effect */
+      .tilt-card {
+        transition: all 0.3s ease;
+        transform-style: preserve-3d;
+      }
+
+      .tilt-card:hover {
+        transform: rotateX(10deg) rotateY(10deg) translateZ(20px);
+        filter: drop-shadow(0 25px 50px var(--neon-glow));
+      }
+
+      /* Navbar */
+      nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(10, 10, 10, 0.95);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--neon-glow);
+        box-shadow: 0 0 30px var(--neon-glow);
+        z-index: 1000;
+        padding: 1rem 5%;
+        transition: all 0.3s ease;
+      }
+
+      nav .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      nav .logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        background: linear-gradient(45deg, var(--neon-blue), #00ffff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-decoration: none;
+        text-shadow: 0 0 20px var(--neon-glow);
+      }
+
+      nav ul {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+      }
+
+      nav ul li a {
+        color: #e0e0e0;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        position: relative;
+        padding: 10px 0;
+      }
+
+      nav ul li a:hover {
+        color: var(--neon-blue);
+        text-shadow: 0 0 15px var(--neon-glow);
+      }
+
+      nav ul li a::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--neon-blue), #00ffff);
+        box-shadow: 0 0 10px var(--neon-glow);
+        transition: width 0.3s ease;
+      }
+
+      nav ul li a:hover::after {
+        width: 100%;
+      }
+
+      /* Sections */
+      section {
+        padding: 100px 5%;
+        max-width: 1200px;
+        margin: 0 auto;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        position: relative;
+      }
+
+      h1 {
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        font-weight: 700;
+        margin-bottom: 1rem;
+        background: linear-gradient(45deg, var(--neon-blue), #00ffff, #ffffff);
+        background-size: 200% 200%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: gradient 3s ease infinite;
+        text-shadow: 0 0 30px var(--neon-glow);
+      }
+
+      @keyframes gradient {
+        0%,
+        100% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+      }
+
+      h2 {
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+        background: linear-gradient(45deg, var(--neon-blue), #ffffff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 0 20px var(--neon-glow);
+      }
+
+      /* Home - FIXED: Text shifted LEFT, Image properly positioned */
+      #home {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        background: radial-gradient(
+          circle at center,
+          var(--neon-glow) 0%,
+          transparent 70%
+        );
+        position: relative;
+      }
+
+      #home .hero-content {
+        flex: 1;
+        max-width: 600px;
+        padding-right: 3rem; /* Space for image */
+        text-align: left;
+        z-index: 2;
+        position: relative;
+      }
+
+      #home p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+        text-shadow: 0 0 10px var(--neon-glow);
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 15px 40px;
+        background: linear-gradient(45deg, var(--neon-blue), #00ffff);
+        color: #000;
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: all 0.4s ease;
+        box-shadow:
+          0 10px 30px var(--neon-glow),
+          inset 0 0 20px rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.4),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .btn:hover::before {
+        left: 100%;
+      }
+
+      .btn:hover {
+        transform: translateY(-8px) scale(1.05);
+        box-shadow: 0 20px 50px var(--neon-glow);
+      }
+
+      #home-image {
+        width: 350px;
+        height: 350px;
+        border-radius: 50%;
+        overflow: hidden;
+        box-shadow:
+          0 30px 80px rgba(0, 0, 0, 0.8),
+          0 0 50px var(--neon-glow);
+        border: 3px solid var(--neon-glow);
+        animation:
+          float 6s ease-in-out infinite,
+          neonPulse 2s ease-in-out infinite alternate;
+        flex-shrink: 0;
+        z-index: 1;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-25px) rotate(5deg);
+        }
+      }
+
+      @keyframes neonPulse {
+        0% {
+          box-shadow:
+            0 30px 80px rgba(0, 0, 0, 0.8),
+            0 0 50px var(--neon-glow);
+        }
+        100% {
+          box-shadow:
+            0 30px 80px rgba(0, 0, 0, 0.8),
+            0 0 80px var(--neon-blue);
+        }
+      }
+
+      #home-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      /* About */
+      #about {
+        flex-direction: row;
+        gap: 5rem;
+      }
+
+      #about .content {
+        flex: 1;
+      }
+
+      #about-image {
+        flex: 1;
+        position: relative;
+      }
+
+      #about-image img {
+        width: 100%;
+        height: 400px;
+        object-fit: cover;
+        border-radius: 25px;
+        box-shadow:
+          0 30px 80px rgba(0, 0, 0, 0.9),
+          0 0 40px var(--neon-glow);
+        border: 2px solid var(--neon-glow);
+        transition: all 0.4s ease;
+      }
+
+      #about-image:hover img {
+        transform: scale(1.05);
+        filter: brightness(1.1);
+      }
+
+      /* Skills - HORIZONTAL SCROLL */
+      #skills {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .skills-container {
+        display: flex;
+        overflow-x: auto;
+        gap: 2rem;
+        padding: 2rem 0;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        max-width: 100%;
+      }
+
+      .skills-container::-webkit-scrollbar {
+        display: none;
+      }
+
+      .skill {
+        flex: 0 0 300px;
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--neon-glow);
+        border-radius: 25px;
+        padding: 2.5rem 2rem;
+        text-align: center;
+        transition: all 0.4s ease;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        position: relative;
+        scroll-snap-align: center;
+        min-height: 300px;
+      }
+
+      .skill::before {
+        content: "";
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(
+          45deg,
+          var(--neon-blue),
+          #00ffff,
+          var(--neon-blue)
+        );
+        border-radius: 27px;
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .skill:hover::before {
+        opacity: 1;
+      }
+
+      .skill:hover {
+        transform: translateY(-20px) scale(1.05) rotateX(15deg);
+        box-shadow: 0 40px 80px var(--neon-glow);
+        border-color: var(--neon-blue);
+      }
+
+      .skill i {
+        font-size: 4rem;
+        background: linear-gradient(45deg, var(--neon-blue), #00ffff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 1.5rem;
+        filter: drop-shadow(0 0 20px var(--neon-glow));
+        display: block;
+      }
+
+      .skill h3 {
+        margin-bottom: 1rem;
+        color: #ffffff;
+        font-size: 1.3rem;
+        text-shadow: 0 0 10px var(--neon-glow);
+      }
+
+      /* Contact */
+      #contact form {
+        max-width: 600px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      input,
+      textarea {
+        padding: 18px;
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(15px);
+        border: 2px solid rgba(0, 212, 255, 0.3);
+        border-radius: 15px;
+        color: #e0e0e0;
+        font-family: inherit;
+        font-size: 1rem;
+        transition: all 0.4s ease;
+        position: relative;
+      }
+
+      input:focus,
+      textarea:focus {
+        outline: none;
+        border-color: var(--neon-blue);
+        box-shadow: 0 0 30px var(--neon-glow);
+        transform: scale(1.02);
+      }
+
+      input::placeholder,
+      textarea::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        nav ul {
+          display: none;
+        }
+
+        #home {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        #home .hero-content {
+          padding-right: 0;
+          max-width: 100%;
+          margin-bottom: 2rem;
+        }
+
+        #home-image {
+          width: 250px;
+          height: 250px;
+        }
+
+        #about {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .skills-container {
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+
+        .skill {
+          flex: 0 1 280px;
+        }
+
+        section {
+          padding: 80px 5%;
+        }
+      }
+
+      .text-center {
+        text-align: center;
+      }
+      footer {
+        background: rgba(10, 10, 10, 0.98);
+        border-top: 1px solid var(--neon-glow);
+        padding: 60px 5% 20px;
+        margin-top: 50px;
+      }
+
+      .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 3rem;
+        text-align: center;
+      }
+
+      .footer-section h3 {
+        color: #fff;
+        margin-bottom: 1.5rem;
+        font-size: 1.4rem;
+        text-shadow: 0 0 10px var(--neon-glow);
+      }
+
+      .social-icons {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+      }
+
+      .social-icons a {
+        color: #e0e0e0;
+        font-size: 1.8rem;
+        transition: all 0.3s ease;
+        filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
+      }
+
+      .social-icons a:hover {
+        color: var(--neon-blue);
+        transform: translateY(-5px);
+        filter: drop-shadow(0 0 15px var(--neon-blue));
+      }
+
+      .contact-info p {
+        margin-bottom: 0.8rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      .contact-info i {
+        color: var(--neon-blue);
+        text-shadow: 0 0 10px var(--neon-glow);
+      }
+
+      .footer-bottom {
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        text-align: center;
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.5);
+      }
+
+      @media (max-width: 768px) {
+        .footer-container {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="container">
+        <a href="#home" class="logo">Jyoti Ranjan Pradhan</a>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <section id="home">
+      <div class="hero-content reveal">
+        <h1 class="reveal stagger" style="--order: 1">
+          Hi, I'm
+          <span style="color: var(--neon-blue)">Jyoti Ranjan Pradhan</span>
+        </h1>
+        <p class="reveal stagger" style="--order: 2">
+          +3 1st Sem BCA Fresher | Passionate about Web Development & Emerging
+          Tech. Building modern web apps with HTML, CSS, JavaScript, and Python.
+        </p>
+        <a href="#about" class="btn reveal stagger" style="--order: 3"
+          >Explore My Work</a
+        >
+      </div>
+      <div id="home-image" class="reveal from-right tilt-card">
+        <img src="./silus.jpeg" alt="Aryan Sharma - BCA Student" />
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="content reveal">
+        <h2 class="reveal stagger" style="--order: 1">About Me</h2>
+        <p class="reveal stagger" style="--order: 2">
+          First-year BCA student from Narasinghpur, diving deep into full-stack
+          development. Experienced in creating responsive websites with advanced
+          animations inspired personal portfolio.
+        </p>
+        <p class="reveal stagger" style="--order: 3">
+          Skills honed: Frontend (HTML/CSS/JS animations), Backend (Python),
+          GitHub, Responsive Design. Preparing for hackathons and tech fests.
+        </p>
+        <a href="#contact" class="btn reveal stagger" style="--order: 4"
+          >Get In Touch</a
+        >
+      </div>
+      <div id="about-image" class="reveal from-right tilt-card">
+        <img
+          src="https://4kwallpapers.com/images/walls/thumbs_3t/22150.jpg"
+          alt="About Aryan Sharma"
+        />
+      </div>
+    </section>
+
+    <section id="skills">
+      <h2 class="reveal">Skills</h2>
+      <div class="skills-container">
+        <div class="skill reveal stagger tilt-card" style="--order: 1">
+          <i class="fab fa-html5"></i>
+          <h3>HTML5 & CSS3</h3>
+          <p>Responsive layouts, animations, modern design</p>
+        </div>
+        <div class="skill reveal stagger tilt-card" style="--order: 2">
+          <i class="fab fa-js-square"></i>
+          <h3>JavaScript</h3>
+          <p>DOM manipulation, interactivity, ES6+</p>
+        </div>
+        <div class="skill reveal stagger tilt-card" style="--order: 3">
+          <i class="fab fa-python"></i>
+          <h3>Python</h3>
+          <p>Backend development, APIs</p>
+        </div>
+        <div class="skill reveal stagger tilt-card" style="--order: 4">
+          <i class="fab fa-github"></i>
+          <h3>Git & GitHub</h3>
+          <p>Version control, collaboration</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2 class="reveal">Contact Me</h2>
+      <form class="reveal">
+        <input
+          type="text"
+          class="reveal stagger"
+          style="--order: 1"
+          placeholder="Your Name"
+          required
+        />
+        <input
+          type="email"
+          class="reveal stagger"
+          style="--order: 2"
+          placeholder="Your Email"
+          required
+        />
+        <textarea
+          rows="5"
+          class="reveal stagger"
+          style="--order: 3"
+          placeholder="Your Message"
+          required
+        ></textarea>
+        <button type="submit" class="btn reveal stagger" style="--order: 4">
+          Send Message
+        </button>
+      </form>
+    </section>
+    <footer class="reveal">
+      <div class="footer-container">
+        <div class="footer-section">
+          <h3>Quick Links</h3>
+          <div class="social-icons">
+            <a href="https://www.instagram.com/itx_._silu_" target="_blank"
+              ><i class="fab fa-instagram"></i
+            ></a>
+            <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-section">
+          <h3>Contact Info</h3>
+          <div class="contact-info">
+            <p>
+              <i class="fas fa-envelope"></i>
+              jyotiranjanpradhansilu@gmail.com
+            </p>
+            <p><i class="fas fa-phone-alt"></i> +91 83288 37944</p>
+            <p><i class="fas fa-map-marker-alt"></i> Narasinghpur, Odisha</p>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Jyoti Ranjan Pradhan. All Rights Reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      // Smooth scrolling
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          document.querySelector(this.getAttribute("href")).scrollIntoView({
+            behavior: "smooth",
+          });
+        });
+      });
+
+      // Navbar scroll effect
+      window.addEventListener("scroll", () => {
+        const nav = document.querySelector("nav");
+        if (window.scrollY > 50) {
+          nav.style.background = "rgba(10, 10, 10, 0.98)";
+          nav.style.boxShadow = "0 10px 40px var(--neon-glow)";
+        } else {
+          nav.style.background = "rgba(10, 10, 10, 0.95)";
+          nav.style.boxShadow = "0 0 30px var(--neon-glow)";
+        }
+      });
+
+      // Advanced Scroll Reveal Animation
+      const reveals = document.querySelectorAll(".reveal");
+
+      const revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+              const order = entry.target.style.getPropertyValue("--order");
+              if (order) {
+                setTimeout(
+                  () => {
+                    entry.target.classList.add("reveal-active");
+                  },
+                  parseInt(order) * 120,
+                );
+              } else {
+                entry.target.classList.add("reveal-active");
+              }
+            }
+          });
+        },
+        {
+          threshold: 0.1,
+          rootMargin: "0px 0px -100px 0px",
+        },
+      );
+
+      reveals.forEach((reveal) => {
+        revealObserver.observe(reveal);
+      });
+
+      // Horizontal skills scroll with snap
+      const skillsContainer = document.querySelector(".skills-container");
+      skillsContainer.addEventListener("scroll", () => {
+        skillsContainer.style.scrollSnapType = "x mandatory";
+      });
+
+      // Enhanced mouse tilt effect
+      document.querySelectorAll(".tilt-card").forEach((card) => {
+        card.addEventListener("mousemove", (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          const rotateX = (y - centerY) / 10;
+          const rotateY = (centerX - x) / 10;
+          card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`;
+        });
+
+        card.addEventListener("mouseleave", () => {
+          card.style.transform = "rotateX(0deg) rotateY(0deg) translateZ(0px)";
+        });
+      });
+
+      // Form submission
+      document.querySelector("form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        alert("Thank you for your message! I'll get back to you soon. 🚀");
+      });
+    </script>
+  </body>
+</html>
